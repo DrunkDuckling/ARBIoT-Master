@@ -24,11 +24,16 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     private GameObject _settingMenuUi = null;
 
+    [SerializeField]
+    private GameObject _depthMenuUi = null;
+
     /// <summary>
     /// Setting button for opening menu windows.
     /// </summary>
     [SerializeField]
     private Button _settingButton = null;
+    //[SerializeField]
+    //private DepthMenu _depthMenu = null;
 
     [Header("Instant Placement Settings")]
 
@@ -54,8 +59,8 @@ public class SettingsMenu : MonoBehaviour
         _settingMenuUi.SetActive(false);
         _settingButton.onClick.AddListener(OnMenuButtonClick);
 
-        _instantPlacementMenuUi.SetActive(false);
-        _instantPlacementButton.onClick.AddListener(OnClickInstantPlacementMenu);
+       // _instantPlacementMenuUi.SetActive(false);
+       // _instantPlacementButton.onClick.AddListener(OnClickInstantPlacementMenu);
     }
 
     /// <summary>
@@ -64,7 +69,7 @@ public class SettingsMenu : MonoBehaviour
     public void OnDestroy()
     {
         _settingButton.onClick.RemoveListener(OnMenuButtonClick);
-        _instantPlacementButton.onClick.RemoveListener(OnClickInstantPlacementMenu);
+       // _instantPlacementButton.onClick.RemoveListener(OnClickInstantPlacementMenu);
     }
 
     /// <summary>
@@ -74,7 +79,7 @@ public class SettingsMenu : MonoBehaviour
     {
         _menuWindow.SetActive(false);
         _settingMenuUi.SetActive(false);
-        _instantPlacementMenuUi.SetActive(false);
+        //_instantPlacementMenuUi.SetActive(false);
         //      _planeDiscoveryGuide.EnablePlaneDiscoveryGuide(true);
     }
 
@@ -83,14 +88,15 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     private void OnMenuButtonClick()
     {
+        print("fsa");
         _menuWindow.SetActive(true);
-//#if ARCORE_FEATURE_INSTANT_PLACEMENT // Both Dpeth and IP are enabled.
-//            _settingMenuUi.SetActive(true);
-//#else // Only Depth is enabled.
-//            _depthMenuUi.SetActive(true);
-//            _depthMenu.OnMenuButtonClicked();
-//#endif
-//            _planeDiscoveryGuide.EnablePlaneDiscoveryGuide(false);
+    #if ARCORE_FEATURE_INSTANT_PLACEMENT // Both Dpeth and IP are enabled.
+        _settingMenuUi.SetActive(true);
+    #else // Only Depth is enabled.
+        _depthMenuUi.SetActive(true);
+        //_depthMenu.OnMenuButtonClicked();
+    #endif
+            //_planeDiscoveryGuide.EnablePlaneDiscoveryGuide(false);
     }
 
     /// <summary>
@@ -99,7 +105,7 @@ public class SettingsMenu : MonoBehaviour
     private void OnClickInstantPlacementMenu()
     {
         _settingMenuUi.SetActive(false);
-        _instantPlacementMenuUi.SetActive(true);
+       // _instantPlacementMenuUi.SetActive(true);
     }
 
 

@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 5304824014288028427}
   - component: {fileID: -1798862879390353553}
   - component: {fileID: 1889355176774276098}
+  - component: {fileID: 434416096844495799}
   m_Layer: 0
   m_Name: TestObject
   m_TagString: Untagged
@@ -200,7 +201,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectionVisualization: {fileID: 0}
+  m_SelectionVisualization: {fileID: 7212943347244512306}
 --- !u!114 &5304824014288028427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,6 +418,18 @@ MonoBehaviour:
       m_Calls: []
   m_RotationRateDegreesDrag: 100
   m_RotationRateDegreesTwist: 2.5
+--- !u!114 &434416096844495799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812603740902784816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5356dabd083b3d45bffb207756d114d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7212943347244512306
 GameObject:
   m_ObjectHideFlags: 0
