@@ -329,8 +329,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuWindow: {fileID: 1545520963}
   _settingMenuUi: {fileID: 697241412}
-  _depthMenuUi: {fileID: 1062423299}
   _settingButton: {fileID: 966430474}
+  _depthMenuUi: {fileID: 1062423299}
+  _toogleDepth: {fileID: 1421933762}
+  _depthButton: {fileID: 803140658}
+  _depthMenu: {fileID: 0}
   _instantPlacementMenuUi: {fileID: 0}
   _instantPlacementButton: {fileID: 0}
 --- !u!4 &252851203
@@ -501,6 +504,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3853509654175522016, guid: 280411b42a15a824aada574bdae9126a, type: 3}
   m_PrefabInstance: {fileID: 3853509654552548260}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &803140658 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3853509654986497444, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+  m_PrefabInstance: {fileID: 3853509654552548260}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &933315672
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,6 +826,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PointCloudPrefab: {fileID: 3000942208992983447, guid: 63a4ec43dbbc43d4d87bc31b1b3c7ca8, type: 3}
+--- !u!114 &1421933762 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+  m_PrefabInstance: {fileID: 3853509654552548260}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1545520963 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3853509655560606951, guid: 280411b42a15a824aada574bdae9126a, type: 3}
@@ -881,9 +906,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 541090045884970838, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2919472688721431094, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_Text
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427659548875274933, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509654175522016, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3853509654300782909, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -897,10 +934,64 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 575310020}
+    - target: {fileID: 3853509655023489968, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_Name
+      value: Toggle DP
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 575310020}
+      objectReference: {fileID: 252851202}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Toggle_Depth
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SettingsMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655023489970, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655119865646, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655119865646, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 27.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655119865647, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_Text
+      value: 'Toggle DP
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655119865647, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3853509655204514242, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_Pivot.x
       value: 0

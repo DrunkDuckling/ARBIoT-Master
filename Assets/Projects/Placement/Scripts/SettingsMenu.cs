@@ -24,16 +24,37 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     private GameObject _settingMenuUi = null;
 
-    [SerializeField]
-    private GameObject _depthMenuUi = null;
-
     /// <summary>
     /// Setting button for opening menu windows.
     /// </summary>
     [SerializeField]
     private Button _settingButton = null;
-    //[SerializeField]
-    //private DepthMenu _depthMenu = null;
+
+    [Header("Depth Settings")]
+
+    /// <summary>
+    /// Depth menu that contains options for depth features.
+    /// </summary>
+    [SerializeField]
+    private GameObject _depthMenuUi = null;
+
+    /// <summary>
+    /// Toggle button for the depth settings. Hides depth button if off
+    /// </summary>
+    [SerializeField]
+    private Toggle _toogleDepth = null;
+
+    /// <summary>
+    /// Depth button for opening depth menue
+    /// </summary>
+    [SerializeField]
+    private Button _depthButton = null;
+
+    /// <summary>
+    /// Depth Menue used for controlling depth settings
+    /// </summary>
+    [SerializeField]
+    private DepthMenu _depthMenu = null;
 
     [Header("Instant Placement Settings")]
 
@@ -55,9 +76,18 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     void Start()
     {
+        /// <summary>
+        /// Setting the menue options. 
+        /// </summary>
         _menuWindow.SetActive(false);
         _settingMenuUi.SetActive(false);
         _settingButton.onClick.AddListener(OnMenuButtonClick);
+
+        /// <summary>
+        /// Setting the Depth menue options.
+        /// </summary>
+        _depthButton.gameObject.SetActive(false);
+        _depthButton.onClick.AddListener(OnClickDepthMenu);
 
        // _instantPlacementMenuUi.SetActive(false);
        // _instantPlacementButton.onClick.AddListener(OnClickInstantPlacementMenu);
@@ -69,7 +99,8 @@ public class SettingsMenu : MonoBehaviour
     public void OnDestroy()
     {
         _settingButton.onClick.RemoveListener(OnMenuButtonClick);
-       // _instantPlacementButton.onClick.RemoveListener(OnClickInstantPlacementMenu);
+        _depthButton.onClick.RemoveListener(OnClickDepthMenu);
+        // _instantPlacementButton.onClick.RemoveListener(OnClickInstantPlacementMenu);
     }
 
     /// <summary>
@@ -79,6 +110,7 @@ public class SettingsMenu : MonoBehaviour
     {
         _menuWindow.SetActive(false);
         _settingMenuUi.SetActive(false);
+        _depthMenuUi.SetActive(false);
         //_instantPlacementMenuUi.SetActive(false);
         //      _planeDiscoveryGuide.EnablePlaneDiscoveryGuide(true);
     }
@@ -88,14 +120,15 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     private void OnMenuButtonClick()
     {
-        print("fsa");
+        print("Click Menu");
         _menuWindow.SetActive(true);
-    #if ARCORE_FEATURE_INSTANT_PLACEMENT // Both Dpeth and IP are enabled.
         _settingMenuUi.SetActive(true);
-    #else // Only Depth is enabled.
-        _depthMenuUi.SetActive(true);
+//#if ARCORE_FEATURE_INSTANT_PLACEMENT // Both Dpeth and IP are enabled.
+//        _settingMenuUi.SetActive(true);
+//#else // Only Depth is enabled.
+//        _depthMenuUi.SetActive(true);
         //_depthMenu.OnMenuButtonClicked();
-    #endif
+ //   #endif
             //_planeDiscoveryGuide.EnablePlaneDiscoveryGuide(false);
     }
 
@@ -108,6 +141,22 @@ public class SettingsMenu : MonoBehaviour
        // _instantPlacementMenuUi.SetActive(true);
     }
 
+    /// <summary>
+    /// Callback event for opening the depth menu
+    /// </summary>
+    private void OnClickDepthMenu()
+    {
+        _settingMenuUi.SetActive(false);
+        _depthMenuUi.SetActive(true);
+    }
+
+    /// <summary>
+    /// Method used for the depth toggle button 
+    /// </summary>
+    public void Toggle_Depth(bool newValue)
+    {
+        _depthButton.gameObject.SetActive(newValue);
+    }
 
     // Update is called once per frame
     void Update()
