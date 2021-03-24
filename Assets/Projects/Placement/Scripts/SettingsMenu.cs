@@ -153,7 +153,7 @@ public class SettingsMenu : MonoBehaviour
     /// <summary>
     /// Method used for the depth toggle button 
     /// </summary>
-    public void Toggle_Depth(bool newValue)
+    public void Toggle_Depth_button(bool newValue)
     {
         _depthButton.gameObject.SetActive(newValue);
     }
