@@ -8,50 +8,69 @@ using System;
 using System.Text;
 using Unity.Collections.LowLevel.Unsafe;
 
-/// <summary>
-/// This component tests for depth functionality and enables/disables
-/// a text message on the screen reporting that depth is not suppoted.
-/// </summary>
-public class DepthMenu : MonoBehaviour
+
+namespace DepthMenu
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    [SerializeField]
-    [Tooltip("The AROcclusionManager which will manage depth functionality.")]
-    AROcclusionManager m_OcclusionManager;
-
     /// <summary>
-    /// Get or set the <c>AROcclusionManager</c>.
+    /// This component tests for depth functionality and enables/disables
+    /// a text message on the screen reporting that depth is not suppoted.
     /// </summary>
-    public AROcclusionManager occlusionManager
+    public class DepthMenu : MonoBehaviour
     {
-        get { return m_OcclusionManager; }
-        set { m_OcclusionManager = value; }
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    [SerializeField]
-    Text m_DepthAvailabilityInfo;
+        }
 
-    /// <summary>
-    /// The UI Text used to display information about the availability of depth functionality.
-    /// </summary>
-    public Text depthAvailabilityInfo
-    {
-        get { return m_DepthAvailabilityInfo; }
-        set { m_DepthAvailabilityInfo = value; }
-    }
+        [SerializeField]
+        [Tooltip("The AROcclusionManager which will manage depth functionality.")]
+        AROcclusionManager m_OcclusionManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        Debug.Assert(m_OcclusionManager != null, "no occlusion manager");
-        Debug.Assert(m_DepthAvailabilityInfo != null, "no text box");
-        m_DepthAvailabilityInfo.enabled = ((m_OcclusionManager.descriptor?.supportsHumanSegmentationStencilImage == false)
-                                           && (m_OcclusionManager.descriptor?.supportsHumanSegmentationDepthImage == false)
-                                           && (m_OcclusionManager.descriptor?.supportsEnvironmentDepthImage == false));
+        /// <summary>
+        /// Get or set the <c>AROcclusionManager</c>.
+        /// </summary>
+        public AROcclusionManager occlusionManager
+        {
+            get { return m_OcclusionManager; }
+            set { m_OcclusionManager = value; }
+        }
+
+
+        [SerializeField]
+        Text m_DepthAvailabilityInfo;
+
+        /// <summary>
+        /// The UI Text used to display information about the availability of depth functionality.
+        /// </summary>
+        public Text depthAvailabilityInfo
+        {
+            get { return m_DepthAvailabilityInfo; }
+            set { m_DepthAvailabilityInfo = value; }
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            Debug.Assert(m_OcclusionManager != null, "no occlusion manager");
+            Debug.Assert(m_DepthAvailabilityInfo != null, "no text box");
+            
+            // If non of the things are supported the statement is true, and the text becomes vissable. 
+            m_DepthAvailabilityInfo.enabled = ((m_OcclusionManager.descriptor?.supportsHumanSegmentationStencilImage == false) && 
+                                               (m_OcclusionManager.descriptor?.supportsHumanSegmentationDepthImage == false) && 
+                                               (m_OcclusionManager.descriptor?.supportsEnvironmentDepthImage == false));
+        }
+
+        public bool IsDepthSupported()
+        {
+            if(m_OcclusionManager.descriptor?.supportsEnvironmentDepthImage == true)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
+
+

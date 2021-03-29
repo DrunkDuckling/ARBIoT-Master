@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DepthMenu;
 
 /// <summary>
 /// Setting menu for Hello AR Sample, including settings for different features.
@@ -54,7 +55,7 @@ public class SettingsMenu : MonoBehaviour
     /// Depth Menue used for controlling depth settings
     /// </summary>
     [SerializeField]
-    private DepthMenu _depthMenu = null;
+    private DepthMenu.DepthMenu _depthMenu;
 
     [Header("Instant Placement Settings")]
 
@@ -89,8 +90,9 @@ public class SettingsMenu : MonoBehaviour
         _depthButton.gameObject.SetActive(false);
         _depthButton.onClick.AddListener(OnClickDepthMenu);
 
-       // _instantPlacementMenuUi.SetActive(false);
-       // _instantPlacementButton.onClick.AddListener(OnClickInstantPlacementMenu);
+
+        // _instantPlacementMenuUi.SetActive(false);
+        // _instantPlacementButton.onClick.AddListener(OnClickInstantPlacementMenu);
     }
 
     /// <summary>
