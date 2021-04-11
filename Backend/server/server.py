@@ -8,13 +8,15 @@ import paho.mqtt.client as mqtt
 
 api = Flask(__name__)
 loHost = "127.0.0.1"
-loPort = "8080"
+loPort = "5000"
 
 # host="0.0.0.0" will make the page accessible
 # by going to http://[ip]:5000/ on any computer in
 # the network.
 exHost = "0.0.0.0"
 exPort = "22"
+
+# Topic is used to subscribe to a specific subject from the mqtt broker.
 topic = "ou44/+/+"
 
 
@@ -108,6 +110,11 @@ def get_go():
     return s
 
 
+@api.route('/')
+def index():
+    return 'OK: Connection is on'
+
+
 if __name__ == '__main__':
     # Start mqtt and instantiate on connect/message for the broker, then try to connect and run loop
     client = mqtt.Client("p1")
@@ -117,5 +124,5 @@ if __name__ == '__main__':
     client.loop_start()
 
     # Run the flask server with given parameters
-    #api.run(debug=True, host=loHost)
-    api.run(host=exHost, port=exPort, debug=True) #For running on remote server
+    api.run(debug=True, host=loHost, port=loPort)
+    #api.run(host=exHost, port=exPort, debug=True) #For running on remote server
