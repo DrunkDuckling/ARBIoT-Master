@@ -14,7 +14,7 @@ loPort = "8080"
 # by going to http://[ip]:5000/ on any computer in
 # the network.
 exHost = "0.0.0.0"
-exPort = "80"
+exPort = "22"
 topic = "ou44/+/+"
 
 
