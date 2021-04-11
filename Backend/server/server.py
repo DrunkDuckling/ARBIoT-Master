@@ -10,6 +10,9 @@ api = Flask(__name__)
 loHost = "127.0.0.1"
 loPort = "8080"
 
+# host="0.0.0.0" will make the page accessible
+# by going to http://[ip]:5000/ on any computer in
+# the network.
 exHost = "0.0.0.0"
 exPort = "80"
 topic = "ou44/+/+"
@@ -114,5 +117,5 @@ if __name__ == '__main__':
     client.loop_start()
 
     # Run the flask server with given parameters
-    api.run(debug=True, host=loHost)
-    # app.run(host=exHost, port=exPort, debug=False) #For running on remote server
+    #api.run(debug=True, host=loHost)
+    api.run(host=exHost, port=exPort, debug=True) #For running on remote server
