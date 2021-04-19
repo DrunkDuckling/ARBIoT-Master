@@ -1,0 +1,182 @@
+[
+    {
+        "Metadata": {
+            "Description": "CO2 Value",
+            "InternalDescription": "CO2 Value",
+            "Media": "air",
+            "Modality": "co2",
+            "Value": {
+                "Encoding": "boolean",
+                "Unit": "parts per million"
+            }
+        },
+        "Path": "22/01/3/032",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "4ff83da5-7311-576f-a7cb-50b36b63fc5e"
+    },
+    {
+        "Metadata": {
+            "Description": "PIR (5 minutes activation)",
+            "Device": {
+                "Technology": "pir"
+            },
+            "InternalDescription": "PIR (5 minutes activation)",
+            "Location": {
+                "Building": "OU44",
+                "City": "Odense",
+                "Floor": "0",
+                "FloorName": "Parterre",
+                "Room": "e22-604-0",
+                "RoomClass": "study zone"
+            },
+            "Media": "occupancy",
+            "Modality": "existence",
+            "OPCUADataType": "Boolean",
+            "OPCUADescription": "Studiezone 22-604-0 - Tilstedevrelse log",
+            "OPCUADisplayName": "174",
+            "OPCUANodeId": "ns=2;s=0:NETx\\XIO\\KNX\\10.211.4.22\\01/3/174",
+            "SourceName": "SDU OPC UA NODE",
+            "Value": {
+                "Unit": "unitless"
+            }
+        },
+        "Path": "/NETx/XIO/KNX/10.211.4.22/01/3/174",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "5e592736-fa43-501f-b14e-d04b13b9b0be"
+    },
+    {
+        "Metadata": {
+            "Description": "CO2 Value",
+            "InternalDescription": "CO2 Value",
+            "Media": "air",
+            "Modality": "co2",
+            "Value": {
+                "Encoding": "boolean",
+                "Unit": "parts per million"
+            }
+        },
+        "Path": "22/01/3/132",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "7aeaf132-47a0-5246-9c73-b948365a41b0"
+    },
+    {
+        "Metadata": {
+            "Description": "PIR (5 minutes activation)",
+            "Device": {
+                "Technology": "pir"
+            },
+            "InternalDescription": "PIR (5 minutes activation)",
+            "Location": {
+                "Building": "OU44",
+                "City": "Odense",
+                "Floor": "0",
+                "FloorName": "Parterre",
+                "Room": "e20-604-0",
+                "RoomClass": "study zone"
+            },
+            "Media": "occupancy",
+            "Modality": "existence",
+            "OPCUADataType": "Boolean",
+            "OPCUADescription": "Studiezone 20-604-0 - Tilstedevrelse log",
+            "OPCUADisplayName": "074",
+            "OPCUANodeId": "ns=2;s=0:NETx\\XIO\\KNX\\10.211.4.22\\01/3/074",
+            "SourceName": "SDU OPC UA NODE",
+            "Value": {
+                "Unit": "unitless"
+            }
+        },
+        "Path": "/NETx/XIO/KNX/10.211.4.22/01/3/074",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "825572fb-757a-53bd-96f6-31215b42ac7c"
+    },
+    {
+        "Metadata": {
+            "Description": "Humidity",
+            "InternalDescription": "Humidity",
+            "Media": "air",
+            "Modality": "relative humidity",
+            "Value": {
+                "Unit": "percent"
+            }
+        },
+        "Path": "22/01/3/047",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "8b7c9652-9209-579c-857a-ab9c4ee59ea8"
+    },
+    {
+        "Metadata": {
+            "Description": "Humidity",
+            "InternalDescription": "Humidity",
+            "Media": "air",
+            "Modality": "relative humidity",
+            "Value": {
+                "Unit": "percent"
+            }
+        },
+        "Path": "22/01/3/147",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "a20d3f4a-dde9-58c1-9ec2-35701e422d0b"
+    },
+    {
+        "Metadata": {
+            "Description": "Temperature Value",
+            "Direction": "output",
+            "InternalDescription": "Temperature Value",
+            "Media": "air",
+            "Modality": "temperature",
+            "Value": {
+                "Unit": "degree celcius"
+            }
+        },
+        "Path": "22/01/3/031",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "b9629986-881c-5345-9825-7f3de5314b94"
+    },
+    {
+        "Metadata": {
+            "Description": "Temperature Value",
+            "Direction": "output",
+            "InternalDescription": "Temperature Value",
+            "Media": "air",
+            "Modality": "temperature",
+            "Value": {
+                "Unit": "degree celcius"
+            }
+        },
+        "Path": "22/01/3/131",
+        "Properties": {
+            "ReadingType": "double",
+            "Timezone": "Europe/Copenhagen",
+            "UnitofMeasure": ""
+        },
+        "uuid": "f4728e4c-aef1-55aa-a4ad-2916e1398f19"
+    }
+]
