@@ -8,7 +8,8 @@ namespace arbiot
 {
     public class FlaskBackend : MonoBehaviour, IFB
     {
-        [SerializeField] private string _uri = "http://localhost:5000/";
+        //[SerializeField] private string _uri = "http://localhost:5000/";
+        [SerializeField] private string _uri = "http://192.168.0.109:80/";
 
         public void GetAddressesPointData(Action<string> callback)
         {
@@ -27,7 +28,6 @@ namespace arbiot
             StartCoroutine(GetRequest(_uri + "getData/" + roomId, callback));
         }
 
-        [Obsolete]
         IEnumerator GetRequest(string uri, Action<string> callback)
         {
             using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
@@ -38,7 +38,7 @@ namespace arbiot
                 string[] pages = uri.Split('/');
                 int page = pages.Length - 1;
 
-                if (webRequest.isNetworkError || webRequest.isHttpError)
+                if (webRequest.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.Log(pages[page] + ": Error: " + webRequest.error);
                     Debug.Log(pages[page] + ": Error: " + webRequest.downloadHandler.text);

@@ -14,7 +14,7 @@ loPort = "5000"
 # by going to http://[ip]:5000/ on any computer in
 # the network.
 exHost = "0.0.0.0"
-exPort = "22"
+exPort = "80"
 
 # Topic is used to subscribe to a specific subject from the mqtt broker.
 topic = "ou44/+/+"
@@ -125,4 +125,4 @@ if __name__ == '__main__':
 
     # Run the flask server with given parameters
     api.run(debug=True, host=loHost, port=loPort)
-    #api.run(host=exHost, port=exPort, debug=True) #For running on remote server
+    #api.run(host=exHost, port=exPort, debug=True) #For running on remote server (
