@@ -28,6 +28,11 @@ namespace arbiot
             StartCoroutine(GetRequest(_uri + "getData/" + roomId, callback));
         }
 
+        public void GetOK(Action<string> callback)
+        {
+            StartCoroutine(GetRequest(_uri, callback));
+        }
+
         IEnumerator GetRequest(string uri, Action<string> callback)
         {
             using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
