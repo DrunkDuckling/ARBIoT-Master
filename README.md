@@ -14,7 +14,7 @@
 - is able to explain and discuss relevant professional and scientific problems 
 - is able to communicate in writing in a clear and understandable manner 
 ## Learning objectives - Competences
-######The student
+###### The student
 - is able to manage work and development situations that are complex and unforeseen and require new solution models 
 - is able to independently initiate and carry out discipline-specific and crossdisciplinary cooperation and to assume professional responsibility 
 - is able to independently take responsibility for his/her own professional development and specialization 
