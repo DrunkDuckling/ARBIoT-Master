@@ -15,6 +15,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
     [RequireComponent(typeof(ARRaycastManager))]
     public class PlaceOnPlane : MonoBehaviour
     {
+        static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
+        ARRaycastManager m_RaycastManager;
+
+
         [SerializeField]
         [Tooltip("Instantiates this prefab on a plane at the touch location.")]
         GameObject m_PlacedPrefab;
@@ -72,8 +76,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
         }
 
-        static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
-
-        ARRaycastManager m_RaycastManager;
+        
     }
 }
