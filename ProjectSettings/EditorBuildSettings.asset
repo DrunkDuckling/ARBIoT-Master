@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Projects/Placement/ARBIoTScene.unity
+    path: Assets/Placement/ARBIoTScene.unity
     guid: 24fd145a750a04c49b7ccb64f370c867
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 816a0e85cce246c45bcd3be81cdfda20, type: 2}
