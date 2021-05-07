@@ -71,10 +71,49 @@ def get_room(room):
         # Used to find errors in the call
         # print(q.strip().replace("\r", " ").replace("\n", " ")[:240])
         response = requests.put('http://localhost:8001/query', data=data)
-        return response.json()
+
+        json_object = response.json()
+        print(json_object)
+
+        sensorlist = []
+        for x in json_object['resultset']:
+            data = {}
+            # ----------- Sensor type -----------
+            text = x[0]
+            text2 = text[text.find('#'):]
+            sensortype = text2[1:]
+            print(sensortype)
+            # ----------- uuids -----------
+            uuid = x[1]
+            uuid2 = uuid[uuid.find('#'):]
+            uuid3 = uuid2[8:]
+            # ----------- Room number -----------
+            room = x[3]
+            # ----------- add to list -----------
+            #data.append('sensortype', sensortype)
+            data['sensortype'] = sensortype
+            data['uuid'] = uuid3
+            data['room'] = room
+            sensorlist.append(data)
+
+        brick_list = {'sensors': sensorlist}
+        return_list = json.dumps(brick_list, indent=4, sort_keys=True)
+
+        is_valid = validateJSON(return_list)
+        print("Given JSON string is ", is_valid)
+
+        #return response.json()
+        return return_list
     else:
         abort(400, "Abort error 400 - The given parameter does not exist. Supported: e22-604-0 or e20-604-0")
 
+
+def validateJSON(jsonData):
+    try:
+        json.loads(jsonData)
+    except ValueError as err:
+        return False
+    return True
 
 # 0: Connection successful
 # 1: Connection refused – incorrect protocol version
@@ -124,5 +163,5 @@ if __name__ == '__main__':
     client.loop_start()
 
     # Run the flask server with given parameters
-    api.run(debug=True, host=loHost, port=loPort)
-    #api.run(host=exHost, port=exPort, debug=True) #For running on remote server (
+    #api.run(debug=True, host=loHost, port=loPort)
+    api.run(host=exHost, port=exPort, debug=True) #For running on remote server (

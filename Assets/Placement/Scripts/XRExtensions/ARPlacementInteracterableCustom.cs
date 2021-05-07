@@ -36,6 +36,9 @@ namespace arbiot
 
     public class ARPlacementInteracterableCustom : ARBaseGestureInteractable
     {
+
+        private ObjectManager objectManager;
+
         [SerializeField]
         [Tooltip("A GameObject to place when a raycast from a user touch hits a plane.")]
         private GameObject placementPrefab;
@@ -115,7 +118,7 @@ namespace arbiot
         {
             // Instantiate at plane position click on screen and current pose rotation.
             // This is where the object is created and placed ingame. 
-            var placementObject = Instantiate(placementPrefab, pose.position, pose.rotation);
+            GameObject placementObject = Instantiate(placementPrefab, pose.position, pose.rotation);
 
             // Create anchor to track reference point and set it as the parent of placementObject.
             var anchor = new GameObject("PlacementAnchor").transform;
@@ -123,8 +126,11 @@ namespace arbiot
             anchor.rotation = pose.rotation;
             placementObject.transform.parent = anchor;
             
+            //Debug.Log("Testing shit");
+            //StartCoroutine(objectManager.CreateSensorObject(placementObject));
+            
             // Just for testing, so i know that they are different. 
-            placementObject.name = "" + Time.time;
+            //placementObject.name = "" + Time.time;
 
             // Use Trackables object in scene to use as parent
             if (arSessionOrigin != null && arSessionOrigin.trackablesParent != null)

@@ -56,7 +56,7 @@ namespace arbiot
                         data = data.Substring(1, data.Length - 3);
                     }
 
-                    Debug.Log(data);
+                    //Debug.Log(data);
                     callback(data);
                 }
             }
