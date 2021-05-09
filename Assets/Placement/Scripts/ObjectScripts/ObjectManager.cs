@@ -20,6 +20,9 @@ namespace arbiot
         private string _uuid;
         // Get or Set the uuid value given from dropdownmenu (uuid)
         public string Uuid {get{return _uuid;} set{_uuid = value;}}
+        [SerializeField] private Text _txt_sensor_uuid;
+
+
         /// <summary>
         /// Setting menu that contains options for different features.
         /// </summary>
@@ -74,10 +77,24 @@ namespace arbiot
         }
         public void DropDownMenuUuid(int val)
         {
-            Uuid = _DropUuid.options[val].text;
+            // currently holds Sensor type atm. Not uuid
+            //Uuid = _DropUuid.options[val].text;
+            string sensor = _DropUuid.options[val].text;
+            if(_brick != null)
+            {
+                foreach(BrickData bs in _brick.sensors)
+                {
+                    if(bs.sensortype == sensor)
+                    {
+                        // Set textfield to sensor uuid and store it in get/set method
+                        _txt_sensor_uuid.text = bs.uuid;
+                        Uuid = bs.uuid;
+                    }
+                }
+            }
             Debug.Log("uuid from dropdownUuid: " + Uuid);
         }
-        // Used to fill and 
+        // Used to fill dropdown menu and show it
         private void FillDDList(string brickData)
         {
             
@@ -92,7 +109,8 @@ namespace arbiot
             {
                 foreach(BrickData bs in _brick.sensors)
                 {
-                    items.Add(bs.uuid);
+                    // Add the type of sensor to a list
+                    items.Add(bs.sensortype);
                 }
             }
             // Add new options to dropdown
@@ -125,15 +143,34 @@ namespace arbiot
         {
             while(true)
             {
-                // suspend execution for 5 seconds
+                // suspend execution for 10 seconds
                 yield return new WaitForSeconds(10);
                 if(_arrayGameObjects == null || _arrayGameObjects.Length < GameObject.FindGameObjectsWithTag("SensorObject").Length)
-                    _arrayGameObjects = GameObject.FindGameObjectsWithTag("SensorObject");
-                
-                foreach(GameObject go in _arrayGameObjects)
                 {
-                    print(go.name);
+                    _arrayGameObjects = GameObject.FindGameObjectsWithTag("SensorObject");
+                    // Itterate the GameObjects found (Prefabs) and give them value
+                    foreach (GameObject go in _arrayGameObjects)
+                    {
+                        // Get the textfields from the GameObjects and Give them new values.
+                        TextMeshPro[] testText = go.GetComponentsInChildren<TextMeshPro>();
+                        foreach (TextMeshPro tx in testText)
+                        {
+                            if (tx.text.Contains("Sensor"))
+                            {
+                                // Gets the specific textfield that is created when prefab is placed.
+                                print("Got sensor text object");
+                            }
+                            else if (tx.text.Contains("uuid"))
+                            {
+                                print("Got the Subtitle!");
+                                tx.text = "Vildt nok jo Det virker!";
+                            }
+                        }
+                        // TODO: Create an array on server that contains the updated values for sensor. 
+                        
+                    }
                 }
+                    
             }
             
         }
@@ -158,10 +195,7 @@ namespace arbiot
             _objectMenuUi.SetActive(false);
 
             // Allow placing objects again. If other bool is the same value
-            //arptoggle.Disable_placement_via_settings(true);
-
-            //_instantPlacementMenuUi.SetActive(false);
-            //      _planeDiscoveryGuide.EnablePlaneDiscoveryGuide(true);
+            arptoggle.Disable_placement_via_settings(true);
         }
     }
 }

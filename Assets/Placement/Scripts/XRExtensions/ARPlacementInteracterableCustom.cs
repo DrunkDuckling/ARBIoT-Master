@@ -185,7 +185,7 @@ namespace arbiot
 
         public void Disable_placement_via_settings(bool newValue)
         {
-            Debug.Log("Disable_placement_via_settings: " + newValue);
+            //Debug.Log("Disable_placement_via_settings: " + newValue);
             disable_placement_via_settings = newValue;
         }
     }
