@@ -573,7 +573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &252571926
 RectTransform:
   m_ObjectHideFlags: 0
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 285543198}
   m_Layer: 5
   m_Name: test Button
-  m_TagString: Untagged
+  m_TagString: DeleteButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -990,7 +990,7 @@ GameObject:
   - component: {fileID: 404844199}
   m_Layer: 0
   m_Name: ObjectManager
-  m_TagString: Untagged
+  m_TagString: ObjectManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3384,6 +3384,7 @@ MonoBehaviour:
   m_ObjectPlaced:
     m_PersistentCalls:
       m_Calls: []
+  _objectMenuUi: {fileID: 252571925}
   m_FallbackLayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -3400,6 +3401,7 @@ GameObject:
   - component: {fileID: 1329020051}
   - component: {fileID: 1329020050}
   - component: {fileID: 1329020054}
+  - component: {fileID: 1329020055}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -3475,6 +3477,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PointCloudPrefab: {fileID: 3000942208992983447, guid: 63a4ec43dbbc43d4d87bc31b1b3c7ca8, type: 3}
+--- !u!114 &1329020055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329020049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afadbc6bba321d443a6a999d9aceeaf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1366319003
 GameObject:
   m_ObjectHideFlags: 0
@@ -4880,7 +4894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -4893,7 +4907,7 @@ PrefabInstance:
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1329020051}
+      objectReference: {fileID: 1329020055}
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -4904,11 +4918,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: set_enabled
+      value: TogglePlaneDetection
       objectReference: {fileID: 0}
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: set_enabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: arbiot.PlaneDetectionController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1176992301798158221, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -4948,7 +4966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3853509654175522016, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3853509654300782909, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5119,6 +5137,10 @@ PrefabInstance:
     - target: {fileID: 3853509655204514246, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853509655560606951, guid: 280411b42a15a824aada574bdae9126a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5963507733704623490, guid: 280411b42a15a824aada574bdae9126a, type: 3}
       propertyPath: m_RootOrder

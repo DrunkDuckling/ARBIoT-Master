@@ -3,7 +3,8 @@
 import json
 import os
 
-base_dir = '/Users/Frederik/Desktop/Master/Backend/Backend test/GO/convetJsonPYScript/data'
+base_dir = '/Users/Frederik/Desktop/Master/Project Code/ARBIoT-Master/Backend/GO/convetJsonPYScript/data'
+
 
 # Get all files in the directory
 data_list = []
@@ -25,7 +26,7 @@ for file in os.listdir(base_dir):
             # Iterating through data file and input data into "samples" key
             for i in data['Readings']:
                 if i[0] > 1541875820000.0:
-                    newData["samples"].append({"time": (i[0]-1541875820000.0)/1000, "value": i[1]})
+                    newData["samples"].append({"time": (i[0]-1541875820000.0)/1000, "value": i[1], "uuid": data["uuid"]})
 
             data.update(newData)
 
@@ -42,7 +43,7 @@ for file in os.listdir(base_dir):
 newData_List = json.dumps(data_list, indent=4)
 
 # Writing to data/new/config_old.json
-with open("../sdu-iot-mqtt-siggen-master/config2.json", "w") as outfile:
+with open("../sdu-iot-mqtt-siggen-master/config3.json", "w") as outfile:
     outfile.write(newData_List)
 print("Successfully wrote file into: data/new ")
 # Closing file

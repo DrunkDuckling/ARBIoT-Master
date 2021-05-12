@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ARplaceObject
   - SensorObject
+  - ObjectManager
+  - DeleteButton
   layers:
   - Default
   - TransparentFX

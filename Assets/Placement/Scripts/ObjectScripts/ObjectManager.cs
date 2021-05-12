@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,10 +17,19 @@ namespace arbiot
 
         // Testing Button
         [SerializeField] private Button _button;
+
+        // Drop Down menu, that helps innitialize the sensor objects
         public TMP_Dropdown _DropRoom, _DropUuid;
         private string _uuid;
+        private string _sensorText;
         // Get or Set the uuid value given from dropdownmenu (uuid)
         public string Uuid {get{return _uuid;} set{_uuid = value;}}
+        public string SensorText {get{return _sensorText; } set{ _sensorText = value;}}
+
+        //Get/Set the GameObject that needs to be instanciated
+        private GameObject _iniSensorGO;
+        public GameObject IniSensorGO { get { return _iniSensorGO; } set { _iniSensorGO = value; } }
+
         [SerializeField] private Text _txt_sensor_uuid;
 
 
@@ -30,8 +40,11 @@ namespace arbiot
         private GameObject _objectMenuUi = null;
         private List<GameObject> _gameObjects;
         public GameObject[] _arrayGameObjects;
+
+        // Used for Backend Data
         private IFB _backend;
         private Brick _brick;
+        private LiveData _livedata;
 
         // Start is called before the first frame update
         void Start()
@@ -39,11 +52,12 @@ namespace arbiot
             /// <summary>
             /// Fetch the "disable_placement_via_settings"(bool)  from "ARPlacementInteracterableCustom" so we can use it
             /// </summary>
-            // Finds the object the script "IGotBools" is attached to and assigns it to the gameobject called g.
             GameObject g = GameObject.FindGameObjectWithTag ("ARplaceObject");
-            //assigns the script component "IGotBools" to the public variable of type "IGotBools" names boolBoy.
+            //assigns the script component "ARplaceObject" to the public variable of type "ARplaceObject" named arptoggle.
             arptoggle = g.GetComponent<ARPlacementInteracterableCustom> ();
-
+            // Disable placement if object setting is started. 
+            arptoggle.Disable_placement_via_settings(true);
+            
             // Innitialize backend
             _backend = _flaskBackendObject.GetComponent<IFB>();
             _gameObjects = new List<GameObject>();
@@ -52,29 +66,19 @@ namespace arbiot
             _DropUuid.options.Clear();
             _DropUuid.interactable = false;
 
-            _button.onClick.AddListener(OnButtonClick);
+            //_button.onClick.AddListener(OnButtonClick);
             StartCoroutine(UpdatePrefabArray());
             
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            
-
-        }
-
-        private void OnButtonClick()
-        {
-            _backend.GetRoomData("e22-604-0", SortBrickData);
-
-        }
-
+        // Method for the Room drop down menu.
         public void DropDownMenuRoom(int val)
         {
             _DropUuid.interactable = false;
             _backend.GetRoomData(_DropRoom.options[val].text, FillDDList);
         }
+
+        // Method for the uuid drop down menu.
         public void DropDownMenuUuid(int val)
         {
             // currently holds Sensor type atm. Not uuid
@@ -89,6 +93,19 @@ namespace arbiot
                         // Set textfield to sensor uuid and store it in get/set method
                         _txt_sensor_uuid.text = bs.uuid;
                         Uuid = bs.uuid;
+
+                        // Get the gameobject currently being instanciated and give it a title and name (uuid)
+                        IniSensorGO.name = bs.uuid;
+                        TextMeshPro[] testText = IniSensorGO.GetComponentsInChildren<TextMeshPro>();
+                        foreach (TextMeshPro tx in testText)
+                        {
+                            if (tx.text.Contains("Sensor"))
+                            {
+                                // Gets the specific textfield that is created when prefab is placed.
+                                print("Got sensor text object");
+                                tx.text = sensor;
+                            }
+                        }
                     }
                 }
             }
@@ -97,7 +114,6 @@ namespace arbiot
         // Used to fill dropdown menu and show it
         private void FillDDList(string brickData)
         {
-            
             // Clear Drop down menu
             _DropUuid.options.Clear();
             // Make data into an object
@@ -112,31 +128,16 @@ namespace arbiot
                     // Add the type of sensor to a list
                     items.Add(bs.sensortype);
                 }
-            }
-            // Add new options to dropdown
-            if(items != null){
-                foreach(var item in items)
+                // Add new options to dropdown
+                if (items != null)
                 {
-                    _DropUuid.options.Add(new TMP_Dropdown.OptionData() { text = item } );
+                    foreach (var item in items)
+                    {
+                        _DropUuid.options.Add(new TMP_Dropdown.OptionData() { text = item });
+                    }
+                    _DropUuid.interactable = true;
                 }
-            }
-            _DropUuid.interactable = true;
-        }
-
-        
-        private void SortBrickData(string brickData)
-        {
-            _brick = JsonUtility.FromJson<Brick>(brickData);
-            if(_brick != null)
-            {
-                foreach(BrickData bs in _brick.sensors)
-                {
-                    Debug.Log(bs.sensortype);
-                    Debug.Log(bs.room);
-                    Debug.Log(bs.uuid);
-                }
-            }
-            //Debug.Log(_brick.sensors[0]);
+            }            
         }
 
         IEnumerator UpdatePrefabArray()
@@ -145,55 +146,74 @@ namespace arbiot
             {
                 // suspend execution for 10 seconds
                 yield return new WaitForSeconds(10);
-                if(_arrayGameObjects == null || _arrayGameObjects.Length < GameObject.FindGameObjectsWithTag("SensorObject").Length)
+                _backend.GetLiveData(GetLiveDatas);
+
+                // Find GameObjects and place them in list to be used. 
+                if (_arrayGameObjects == null || _arrayGameObjects.Length < GameObject.FindGameObjectsWithTag("SensorObject").Length)
                 {
                     _arrayGameObjects = GameObject.FindGameObjectsWithTag("SensorObject");
+                    
+                }
+                // Go get live data and place it into the instanciated gameobjects. 
+                if (_livedata != null && _arrayGameObjects != null)
+                {
                     // Itterate the GameObjects found (Prefabs) and give them value
                     foreach (GameObject go in _arrayGameObjects)
                     {
-                        // Get the textfields from the GameObjects and Give them new values.
-                        TextMeshPro[] testText = go.GetComponentsInChildren<TextMeshPro>();
-                        foreach (TextMeshPro tx in testText)
+                        print(go.name);
+                        foreach (SensorData ld in _livedata.livedata)
                         {
-                            if (tx.text.Contains("Sensor"))
+                            if (go.name == ld.uuid)
                             {
-                                // Gets the specific textfield that is created when prefab is placed.
-                                print("Got sensor text object");
-                            }
-                            else if (tx.text.Contains("uuid"))
-                            {
-                                print("Got the Subtitle!");
-                                tx.text = "Vildt nok jo Det virker!";
+                                // Get the textfields from the GameObjects and Give them new values.
+                                TextMeshPro[] testText = go.GetComponentsInChildren<TextMeshPro>();
+                                foreach (TextMeshPro tx in testText)
+                                {
+                                    if (tx.text.Contains("uuid"))
+                                    {
+                                        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(ld.time);
+                                        print("Got the Subtitle!");
+                                        tx.text = "uuid: " + ld.uuid + "\n" + "Value: " + ld.value + "\n" + "Last updated: " + dateTimeOffset;
+                                    }
+                                }
                             }
                         }
-                        // TODO: Create an array on server that contains the updated values for sensor. 
-                        
                     }
                 }
-                    
             }
-            
         }
+
+        // Method that converts the json string data into objects
+        private void GetLiveDatas(string data)
+        {
+            _livedata = JsonUtility.FromJson<LiveData>(data);
+        }
+
 
         /// <summary>
         /// Callback event for object option.
         /// </summary>
-        private void OnObjectMenuOpened()
+        public void OnObjectMenuOpened()
         {
-            
             _objectMenuUi.SetActive(true);
 
             // Stop placing objects when settings are open
             arptoggle.Disable_placement_via_settings(false);
         }
+
         /// <summary>
         /// Callback event for closing the object menu.
         /// </summary>
-
         public void OnObjectMenuClosed()
         {
             _objectMenuUi.SetActive(false);
 
+            // Run the method PlaceToggle but with a 2 secounds delay.
+            Invoke("PlaceToggle", 2);
+        }
+
+        private void PlaceToggle()
+        {
             // Allow placing objects again. If other bool is the same value
             arptoggle.Disable_placement_via_settings(true);
         }

@@ -23,6 +23,12 @@ namespace arbiot
             StartCoroutine(GetRequest(_uri + "rum/a", callback));
         }
 
+        public void GetLiveData(Action<string> callback)
+        {
+            Debug.Log("GetLiveData from Flask Server");
+            StartCoroutine(GetRequest(_uri + "go", callback));
+        }
+
         public void GetRoomData(string roomId, Action<string> callback)
         {
             StartCoroutine(GetRequest(_uri + "getData/" + roomId, callback));

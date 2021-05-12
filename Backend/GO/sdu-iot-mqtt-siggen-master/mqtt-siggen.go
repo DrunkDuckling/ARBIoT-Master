@@ -12,6 +12,7 @@ import (
 type Sample struct {
     Time  float64 `json:"time"`
     Value float64 `json:"value"`
+    Uuid  string  `json:"uuid"`
 }
 
 type Signal struct {
@@ -21,7 +22,7 @@ type Signal struct {
 type Config []Signal
 
 const (
-    config_filename string = "config2.json"
+    config_filename string = "config3.json"
 )
 
 var (
@@ -81,7 +82,7 @@ func produce (client mqtt.Client, signal Signal, t0 float64) {
             tnext := t0+i*period+sample.Time
 
             // produce payload
-            var new_sample Sample = Sample{tnext/1e9, sample.Value}
+            var new_sample Sample = Sample{tnext/1e9, sample.Value, sample.Uuid}
             message, _ := json.Marshal(new_sample)
 
             // sleep

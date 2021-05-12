@@ -9,6 +9,7 @@ namespace arbiot
     {
         void GetAddressesPointData(Action<string> callback);
         void GetAddressesAreaData(Action<string> callback);
+        void GetLiveData(Action<string> callback);
         void GetRoomData(string roomid, Action<string> callback);
     }
 }

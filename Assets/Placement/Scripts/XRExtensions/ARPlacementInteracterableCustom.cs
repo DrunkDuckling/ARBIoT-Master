@@ -47,6 +47,12 @@ namespace arbiot
         [Tooltip("Callback event executed after object is placed.")]
         private ARObjectPlacementEventCustom m_ObjectPlaced = new ARObjectPlacementEventCustom();
 
+        /// <summary>
+        /// Setting menu that contains options for different features.
+        /// </summary>
+        [SerializeField]
+        private GameObject _objectMenuUi;
+
         // Used to determine if we want to place an object on planes. 
         private bool toggle_Placement;
         private bool disable_placement_via_settings;
@@ -79,6 +85,7 @@ namespace arbiot
         private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
         private static GameObject trackablesObject;
+
 
         /// <summary>
         /// Gets the pose for the object to be placed from a raycast hit triggered by a <see cref="TapGesture"/>.
@@ -125,9 +132,9 @@ namespace arbiot
             anchor.position = pose.position;
             anchor.rotation = pose.rotation;
             placementObject.transform.parent = anchor;
+
+
             
-            //Debug.Log("Testing shit");
-            //StartCoroutine(objectManager.CreateSensorObject(placementObject));
             
             // Just for testing, so i know that they are different. 
             //placementObject.name = "" + Time.time;
@@ -144,10 +151,18 @@ namespace arbiot
         /// This method is called after an object has been placed.
         /// </summary>
         /// <param name="args">Event data containing a reference to the instantiated placement object.</param>
-        protected virtual void OnObjectPlaced(ARPlacementInteracterableCustom arp, GameObject gameObject)
+        protected virtual void OnObjectPlaced(ARPlacementInteracterableCustom arp, GameObject go)
         {
             //print("3: OnObjectPlaced");
-            objectPlaced?.Invoke(arp, gameObject);
+            objectPlaced?.Invoke(arp, go);
+            // Testing if i can do it like this. 
+            
+            GameObject o = GameObject.FindGameObjectWithTag("ObjectManager");
+            objectManager = o.GetComponent<ObjectManager>();
+            objectManager.IniSensorGO = go;
+            objectManager.OnObjectMenuOpened();
+            Debug.Log("Testing");
+            //Debug.Log(placementObject.name);
         }
 
         protected override bool CanStartManipulationForGesture(TapGesture gesture)

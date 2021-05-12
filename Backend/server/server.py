@@ -90,7 +90,6 @@ def get_room(room):
             # ----------- Room number -----------
             room = x[3]
             # ----------- add to list -----------
-            #data.append('sensortype', sensortype)
             data['sensortype'] = sensortype
             data['uuid'] = uuid3
             data['room'] = room
@@ -115,6 +114,7 @@ def validateJSON(jsonData):
         return False
     return True
 
+
 # 0: Connection successful
 # 1: Connection refused – incorrect protocol version
 # 2: Connection refused – invalid client identifier
@@ -131,10 +131,39 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe(topic)
 
 
+dataList = []
+
 def on_message(client, userdata, msg):
     # print("Topic: " + msg.topic + " MSG: " + str(msg.payload))
     global goData
+    global datathing
+    data = {}
     goData = {"topic": msg.topic, "sample": msg.payload.decode('utf8').replace("'", '"')}
+
+    res = json.loads(msg.payload.decode('utf8').replace("'", '"'))
+    res['topic'] = msg.topic
+
+    if len(dataList) == 0:
+        dataList.append(res)
+    elif res not in dataList:
+        print(id(res))
+        present = False
+        for i, item in enumerate(dataList):
+            if res['topic'] == item['topic']:
+                print("Updated Values in: " + res['uuid'])
+                dataList[i] = res
+                present = True
+        if not present:
+            print("added the sensor: " + res['uuid'])
+            print(id(res))
+            dataList.append(res)
+
+
+
+
+    #print(dataList)
+
+
     # print("message received  ", str(msg.payload.decode("utf-8")), \
     #      "topic", msg.topic, "retained ", msg.retain)
     # if msg.retain == 1:
@@ -144,9 +173,15 @@ def on_message(client, userdata, msg):
 # https://stackoverflow.com/questions/12232304/how-to-implement-server-push-in-flask-framework
 @api.route('/go', methods=['GET'])
 def get_go():
-    print(goData)
-    s = json.dumps(goData, indent=4, sort_keys=True)
-    return s
+    #print(goData)
+    #s = json.dumps(goData, indent=4, sort_keys=True)
+    finalList = {'livedata': dataList}
+    s = json.dumps(finalList, indent=4, sort_keys=True)
+
+
+    #print(goData)
+    return finalList
+
 
 
 @api.route('/')
@@ -164,4 +199,4 @@ if __name__ == '__main__':
 
     # Run the flask server with given parameters
     #api.run(debug=True, host=loHost, port=loPort)
-    api.run(host=exHost, port=exPort, debug=True) #For running on remote server (
+    api.run(host=exHost, port=exPort, debug=True, threaded=True) #For running on remote server (

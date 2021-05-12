@@ -55,21 +55,6 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField]
     private DepthMenu.DepthMenu _depthMenu;
 
-    //[Header("Instant Placement Settings")]
-
-    /// <summary>
-    /// Instant Placement menu for configuring instant placement options.
-    /// </summary>
-    //[SerializeField]
-    //private GameObject _instantPlacementMenuUi = null;
-
-    /// <summary>
-    /// The button to open instant placement menu.
-    /// </summary>
-    //[SerializeField]
-    //private Button _instantPlacementButton = null;
-
-
     /// <summary>
     /// Unity's Start() method. is called before the first frame update
     /// </summary>
@@ -88,17 +73,13 @@ public class SettingsMenu : MonoBehaviour
         _depthButton.gameObject.SetActive(true);
         _depthButton.onClick.AddListener(OnClickDepthMenu);
 
-
         /// <summary>
         /// Fetch the "disable_placement_via_settings"(bool)  from "ARPlacementInteracterableCustom" so we can use it
         /// </summary>
-        // Finds the object the script "IGotBools" is attached to and assigns it to the gameobject called g.
+        // Finds the object the script "ARplaceObject" is attached to and assigns it to the gameobject called g.
         GameObject g = GameObject.FindGameObjectWithTag ("ARplaceObject");
-        //assigns the script component "IGotBools" to the public variable of type "IGotBools" names boolBoy.
+        //assigns the script component "ARplaceObject" to the public variable of type "ARplaceObject" names arptoggle.
         arptoggle = g.GetComponent<ARPlacementInteracterableCustom> ();
-
-        // _instantPlacementMenuUi.SetActive(false);
-        // _instantPlacementButton.onClick.AddListener(OnClickInstantPlacementMenu);
     }
 
     /// <summary>
@@ -108,7 +89,6 @@ public class SettingsMenu : MonoBehaviour
     {
         _settingButton.onClick.RemoveListener(OnMenuButtonClick);
         _depthButton.onClick.RemoveListener(OnClickDepthMenu);
-        // _instantPlacementButton.onClick.RemoveListener(OnClickInstantPlacementMenu);
     }
 
     /// <summary>
@@ -120,11 +100,14 @@ public class SettingsMenu : MonoBehaviour
         _settingMenuUi.SetActive(false);
         _depthMenuUi.SetActive(false);
 
+        // Run the method PlaceToggle but with a 2 secounds delay.
+        Invoke("PlaceToggle", 2);
+    }
+
+    private void PlaceToggle()
+    {
         // Allow placing objects again. If other bool is the same value
         arptoggle.Disable_placement_via_settings(true);
-
-        //_instantPlacementMenuUi.SetActive(false);
-        //      _planeDiscoveryGuide.EnablePlaneDiscoveryGuide(true);
     }
 
     /// <summary>
@@ -141,26 +124,11 @@ public class SettingsMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback event for opening instant placement menu.
-    /// </summary>
-    private void OnClickInstantPlacementMenu()
-    {
-        _settingMenuUi.SetActive(false);
-       // _instantPlacementMenuUi.SetActive(true);
-    }
-
-    /// <summary>
     /// Callback event for opening the depth menu
     /// </summary>
     private void OnClickDepthMenu()
     {
         _settingMenuUi.SetActive(false);
         _depthMenuUi.SetActive(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
