@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using System;
-using System.Text;
-using Unity.Collections.LowLevel.Unsafe;
-
+using TMPro;
+using arbiot;
 
 namespace DepthMenu
 {
@@ -15,30 +11,16 @@ namespace DepthMenu
     /// This component tests for depth functionality and enables/disables
     /// a text message on the screen reporting that depth is not suppoted.
     /// </summary>
-    public class DepthMenu : MonoBehaviour
+    public class DepthMenu : Singleton<DepthMenu>
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-            if(IsDepthSupported())
-                depthAvailabilityInfo.text = "Depth is supported";
-            else
-                depthAvailabilityInfo.text = "Depth is not supported";
-        }
-
         [SerializeField]
-        [Tooltip("The AROcclusionManager which will manage depth functionality.")]
-        AROcclusionManager m_OcclusionManager;
+        private Button qualityButton;
+        [SerializeField]
+        private Button humanStensilButton;
+        [SerializeField]
+        private Button prefButton;
 
-        /// <summary>
-        /// Get or set the <c>AROcclusionManager</c>.
-        /// </summary>
-        public AROcclusionManager occlusionManager
-        {
-            get { return m_OcclusionManager; }
-            set { m_OcclusionManager = value; }
-        }
-
+        private TextMeshProUGUI qualityButtonText, humanStensilButtonText, prefButtonText;
 
         [SerializeField]
         Text m_DepthAvailabilityInfo;
@@ -53,24 +35,107 @@ namespace DepthMenu
 
         }
 
-        // Update is called once per frame
-        void Update()
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Assert(m_OcclusionManager != null, "no occlusion manager");
-            Debug.Assert(m_DepthAvailabilityInfo != null, "no text box");
+            if (AROcclusionQualityController.Instance.IsDepthSupported())
+            {
+                depthAvailabilityInfo.text = "Depth is supported";
+                UpdateQualityText();
+            }   
+            else
+            {
+                depthAvailabilityInfo.text = "Depth is not supported";
+                qualityButton.interactable = false;
+                humanStensilButton.interactable = false;
+                prefButton.interactable = false;
+            }
             
-            // If one of the things are supported the statement is false, and the text is not vissible. 
-            m_DepthAvailabilityInfo.enabled = ((m_OcclusionManager.descriptor?.supportsHumanSegmentationStencilImage == false) && 
-                                               (m_OcclusionManager.descriptor?.supportsHumanSegmentationDepthImage == false) && 
-                                               (m_OcclusionManager.descriptor?.supportsEnvironmentDepthImage == false));
         }
 
-        public bool IsDepthSupported()
+        private void Awake()
         {
-            if(m_OcclusionManager.descriptor?.supportsEnvironmentDepthImage == true)
-                return true;   
-            else 
-            return false;
+            qualityButtonText = qualityButton.GetComponentInChildren<TextMeshProUGUI>();
+            humanStensilButtonText = humanStensilButton.GetComponentInChildren<TextMeshProUGUI>();
+            prefButtonText = prefButton.GetComponentInChildren<TextMeshProUGUI>();
+        }
+        
+
+        // Used to change the quality of Occlusion
+        public void ToggleQuality()
+        {
+            EnvironmentDepthMode depthMode = AROcclusionQualityController.Instance.GetCurrentDepthMode();
+
+            switch (depthMode)
+            {
+                case EnvironmentDepthMode.Disabled:
+                    AROcclusionQualityController.Instance.ChangeQualityTo(EnvironmentDepthMode.Fastest);
+                    break;
+                case EnvironmentDepthMode.Fastest:
+                    AROcclusionQualityController.Instance.ChangeQualityTo(EnvironmentDepthMode.Medium);
+                    break;
+                case EnvironmentDepthMode.Medium:
+                    AROcclusionQualityController.Instance.ChangeQualityTo(EnvironmentDepthMode.Best);
+                    break;
+                case EnvironmentDepthMode.Best:
+                    AROcclusionQualityController.Instance.ChangeQualityTo(EnvironmentDepthMode.Disabled);
+                    break;
+            }
+
+            UpdateQualityText();
+        }
+
+        public void ToggleHuStQuality()
+        {
+            HumanSegmentationStencilMode humanStensileMode = AROcclusionQualityController.Instance.GetCurrentStencilMode();
+
+            switch (humanStensileMode)
+            {
+                case HumanSegmentationStencilMode.Disabled:
+                    AROcclusionQualityController.Instance.ChangeHuSeStQualityTo(HumanSegmentationStencilMode.Fastest);
+                    AROcclusionQualityController.Instance.ChangeHuSeDeQualityTo(HumanSegmentationDepthMode.Fastest);
+                    break;
+                case HumanSegmentationStencilMode.Fastest:
+                    AROcclusionQualityController.Instance.ChangeHuSeStQualityTo(HumanSegmentationStencilMode.Best);
+                    AROcclusionQualityController.Instance.ChangeHuSeDeQualityTo(HumanSegmentationDepthMode.Best);
+                    break;
+                case HumanSegmentationStencilMode.Best:
+                    AROcclusionQualityController.Instance.ChangeHuSeStQualityTo(HumanSegmentationStencilMode.Disabled);
+                    AROcclusionQualityController.Instance.ChangeHuSeDeQualityTo(HumanSegmentationDepthMode.Disabled);
+                    break;
+            }
+
+            UpdateQualityText();
+        }
+
+        public void TogglePreference()
+        {
+            OcclusionPreferenceMode prefMode = AROcclusionQualityController.Instance.GetCurrentPreferenceMode();
+
+            switch (prefMode)
+            {
+                case OcclusionPreferenceMode.PreferEnvironmentOcclusion:
+                    AROcclusionQualityController.Instance.ChangeOcclusionPreferenceMode(OcclusionPreferenceMode.PreferHumanOcclusion);
+                    break;
+                case OcclusionPreferenceMode.PreferHumanOcclusion:
+                    AROcclusionQualityController.Instance.ChangeOcclusionPreferenceMode(OcclusionPreferenceMode.PreferEnvironmentOcclusion);
+                    break;
+
+            }
+
+            UpdateQualityText();
+        }
+
+        private void UpdateQualityText()
+        {
+            EnvironmentDepthMode newDepthMode = AROcclusionQualityController.Instance.GetCurrentDepthMode();
+            qualityButtonText.text = $"Env Depth: {newDepthMode}";
+
+            HumanSegmentationStencilMode newHumaneMode = AROcclusionQualityController.Instance.GetCurrentStencilMode();
+            humanStensilButtonText.text = $"Stencil: {newHumaneMode}";
+
+            OcclusionPreferenceMode prefhMode = AROcclusionQualityController.Instance.GetCurrentPreferenceMode();
+            prefButtonText.text = $"Pref:  {prefhMode}";
         }
     }
 }

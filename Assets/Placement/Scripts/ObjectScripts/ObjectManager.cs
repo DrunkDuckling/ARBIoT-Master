@@ -10,13 +10,9 @@ namespace arbiot
     public class ObjectManager : MonoBehaviour
     {
         [SerializeField] private GameObject _flaskBackendObject; 
-        [SerializeField] private GameObject _gameObjectPrefab;
 
         // Setting the placement bool from "ARPlacementInteracterableCustom"
         public ARPlacementInteracterableCustom arptoggle;
-
-        // Testing Button
-        [SerializeField] private Button _button;
 
         // Drop Down menu, that helps innitialize the sensor objects
         public TMP_Dropdown _DropRoom, _DropUuid;
@@ -38,7 +34,6 @@ namespace arbiot
         /// </summary>
         [SerializeField]
         private GameObject _objectMenuUi = null;
-        private List<GameObject> _gameObjects;
         public GameObject[] _arrayGameObjects;
 
         // Used for Backend Data
@@ -60,7 +55,6 @@ namespace arbiot
             
             // Innitialize backend
             _backend = _flaskBackendObject.GetComponent<IFB>();
-            _gameObjects = new List<GameObject>();
 
             // Make sure that the uuid dropdown is empty at startup
             _DropUuid.options.Clear();
@@ -118,25 +112,17 @@ namespace arbiot
             _DropUuid.options.Clear();
             // Make data into an object
             _brick = JsonUtility.FromJson<Brick>(brickData);
-            // Create new list for dropdown
-            List<string> items = new List<string>();
             // Place data into new list.
-            if(_brick != null)
+            if(_brick != null && _brick.sensors != null)
             {
                 foreach(BrickData bs in _brick.sensors)
                 {
                     // Add the type of sensor to a list
-                    items.Add(bs.sensortype);
+                    _DropUuid.options.Add(new TMP_Dropdown.OptionData() { text = bs.sensortype });
                 }
-                // Add new options to dropdown
-                if (items != null)
-                {
-                    foreach (var item in items)
-                    {
-                        _DropUuid.options.Add(new TMP_Dropdown.OptionData() { text = item });
-                    }
-                    _DropUuid.interactable = true;
-                }
+                
+                _DropUuid.interactable = true;
+                
             }            
         }
 
@@ -148,12 +134,6 @@ namespace arbiot
                 yield return new WaitForSeconds(10);
                 _backend.GetLiveData(GetLiveDatas);
 
-                // Find GameObjects and place them in list to be used. 
-                if (_arrayGameObjects == null || _arrayGameObjects.Length < GameObject.FindGameObjectsWithTag("SensorObject").Length)
-                {
-                    _arrayGameObjects = GameObject.FindGameObjectsWithTag("SensorObject");
-                    
-                }
                 // Go get live data and place it into the instanciated gameobjects. 
                 if (_livedata != null && _arrayGameObjects != null)
                 {
@@ -171,9 +151,9 @@ namespace arbiot
                                 {
                                     if (tx.text.Contains("uuid"))
                                     {
-                                        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(ld.time);
-                                        print("Got the Subtitle!");
-                                        tx.text = "uuid: " + ld.uuid + "\n" + "Value: " + ld.value + "\n" + "Last updated: " + dateTimeOffset;
+                                        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(ld.time);
+                                        
+                                        tx.text = "uuid: " + ld.uuid + "\n" + "Value: " + ld.value + "\n" + "Last updated: " + dateTimeOffset.UtcDateTime;
                                     }
                                 }
                             }
@@ -187,18 +167,23 @@ namespace arbiot
         private void GetLiveDatas(string data)
         {
             _livedata = JsonUtility.FromJson<LiveData>(data);
+
+            // Find GameObjects and place them in list to be used. 
+            if (_arrayGameObjects == null || _arrayGameObjects.Length != GameObject.FindGameObjectsWithTag("SensorObject").Length)
+            {
+                _arrayGameObjects = GameObject.FindGameObjectsWithTag("SensorObject");
+
+            }
         }
 
-
-        /// <summary>
-        /// Callback event for object option.
-        /// </summary>
-        public void OnObjectMenuOpened()
+        public void OnARObjectPlaced(
+            ARPlacementInteracterableCustom arPlacementInteracterableCustom, 
+            GameObject placedObject)
         {
-            _objectMenuUi.SetActive(true);
-
+            IniSensorGO = placedObject;
             // Stop placing objects when settings are open
             arptoggle.Disable_placement_via_settings(false);
+            _objectMenuUi.SetActive(true);
         }
 
         /// <summary>

@@ -1,0 +1,5 @@
+Kræver at man er på sdu's VPN:
+- ssh admin@10.123.252.240
+- C:\Users\Frederik\Desktop\Master\Backend
+- Copy files:  
+	- scp -r admin@10.123.252.240:/data C:\Users\Frederik\Desktop\Master\Backend

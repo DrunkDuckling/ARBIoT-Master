@@ -66,6 +66,8 @@ def get_room(room):
                 ?sensor   rdf:type    ?type .
             }
             '''
+
+        #print(q)
         # data = '"SELECT ?pred ?obj WHERE {brick:Sensor ?pred ?obj .}"'
         data = '"' + q.strip().replace("\r", " ").replace("\n", " ") + '"'
         # Used to find errors in the call
@@ -73,7 +75,7 @@ def get_room(room):
         response = requests.put('http://localhost:8001/query', data=data)
 
         json_object = response.json()
-        print(json_object)
+        #print(json_object)
 
         sensorlist = []
         for x in json_object['resultset']:
@@ -198,5 +200,5 @@ if __name__ == '__main__':
     client.loop_start()
 
     # Run the flask server with given parameters
-    #api.run(debug=True, host=loHost, port=loPort)
-    api.run(host=exHost, port=exPort, debug=True, threaded=True) #For running on remote server (
+    api.run(debug=True, host=loHost, port=loPort)
+    #api.run(host=exHost, port=exPort, debug=True, threaded=True) #For running on remote server (

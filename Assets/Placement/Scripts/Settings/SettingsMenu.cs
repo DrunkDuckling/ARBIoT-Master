@@ -115,7 +115,6 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     private void OnMenuButtonClick()
     {
-        print("Click Menu");
         _menuWindow.SetActive(true);
         _settingMenuUi.SetActive(true);
 
@@ -130,5 +129,7 @@ public class SettingsMenu : MonoBehaviour
     {
         _settingMenuUi.SetActive(false);
         _depthMenuUi.SetActive(true);
+        // Stop placing objects when settings are open
+        arptoggle.Disable_placement_via_settings(false);
     }
 }

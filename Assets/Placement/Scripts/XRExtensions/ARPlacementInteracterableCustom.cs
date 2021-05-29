@@ -36,9 +36,6 @@ namespace arbiot
 
     public class ARPlacementInteracterableCustom : ARBaseGestureInteractable
     {
-
-        private ObjectManager objectManager;
-
         [SerializeField]
         [Tooltip("A GameObject to place when a raycast from a user touch hits a plane.")]
         private GameObject placementPrefab;
@@ -46,16 +43,6 @@ namespace arbiot
         [SerializeField]
         [Tooltip("Callback event executed after object is placed.")]
         private ARObjectPlacementEventCustom m_ObjectPlaced = new ARObjectPlacementEventCustom();
-
-        /// <summary>
-        /// Setting menu that contains options for different features.
-        /// </summary>
-        [SerializeField]
-        private GameObject _objectMenuUi;
-
-        // Used to determine if we want to place an object on planes. 
-        private bool toggle_Placement;
-        private bool disable_placement_via_settings;
 
         /// <summary>
         /// Gets or sets the event that is called when this Interactable places a new <see cref="GameObject"/> in the world.
@@ -80,12 +67,11 @@ namespace arbiot
             set => m_FallbackLayerMask = value;
         }
 
-        private GameObject placementObject;
-
         private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
-        private static GameObject trackablesObject;
-
+        // Used to determine if we want to place an object on planes. 
+        private bool toggle_Placement;
+        private bool disable_placement_via_settings;
 
         /// <summary>
         /// Gets the pose for the object to be placed from a raycast hit triggered by a <see cref="TapGesture"/>.
@@ -134,11 +120,6 @@ namespace arbiot
             placementObject.transform.parent = anchor;
 
 
-            
-            
-            // Just for testing, so i know that they are different. 
-            //placementObject.name = "" + Time.time;
-
             // Use Trackables object in scene to use as parent
             if (arSessionOrigin != null && arSessionOrigin.trackablesParent != null)
                 anchor.parent = arSessionOrigin.trackablesParent;
@@ -153,16 +134,7 @@ namespace arbiot
         /// <param name="args">Event data containing a reference to the instantiated placement object.</param>
         protected virtual void OnObjectPlaced(ARPlacementInteracterableCustom arp, GameObject go)
         {
-            //print("3: OnObjectPlaced");
             objectPlaced?.Invoke(arp, go);
-            // Testing if i can do it like this. 
-            
-            GameObject o = GameObject.FindGameObjectWithTag("ObjectManager");
-            objectManager = o.GetComponent<ObjectManager>();
-            objectManager.IniSensorGO = go;
-            objectManager.OnObjectMenuOpened();
-            Debug.Log("Testing");
-            //Debug.Log(placementObject.name);
         }
 
         protected override bool CanStartManipulationForGesture(TapGesture gesture)
@@ -192,6 +164,7 @@ namespace arbiot
                 OnObjectPlaced(this, placementObject);
             }
         }
+
 
         public void Toggle_Object_Placement(bool newValue)
         {

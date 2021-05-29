@@ -9,8 +9,6 @@ public class ARSelectionInteractableCustom : ARBaseGestureInteractable
     [SerializeField, Tooltip("The visualization GameObject that will become active when the object is selected.")]
     GameObject m_SelectionVisualization;
 
-    private Button m_delete_button;
-
     /// <summary>
     /// The visualization <see cref="GameObject"/> that will become active when the object is selected.
     /// </summary>
@@ -20,21 +18,20 @@ public class ARSelectionInteractableCustom : ARBaseGestureInteractable
         set => m_SelectionVisualization = value;
     }
 
+    // Used to delete selected VO's
+    private Button _DeleteObjecBbutton;
+    // Selected VO
+    private GameObject _selectedVO;
+    public GameObject SelectedVO { get { return _selectedVO; } set { _selectedVO = value; } }
 
-    private GameObject _placedObjectPrefab;
-    private GameObject _placedObject
-    {
-        get => _placedObjectPrefab;
-        set => _placedObjectPrefab = value;
-    }
+
+    bool m_GestureSelected;
 
     private void Start()
     {
-        m_delete_button = GameObject.FindGameObjectWithTag("DeleteButton").GetComponent<Button>();
-        m_delete_button.onClick.AddListener(DeleteObjectButton);
+        _DeleteObjecBbutton = GameObject.FindGameObjectWithTag("DeleteButton").GetComponent<Button>();
+        _DeleteObjecBbutton.onClick.AddListener(DeleteSelectedObject);
     }
-
-    bool m_GestureSelected;
 
     /// <inheritdoc />
     public override bool IsSelectableBy(XRBaseInteractor interactor)
@@ -63,18 +60,12 @@ public class ARSelectionInteractableCustom : ARBaseGestureInteractable
             // Toggle selection
             m_GestureSelected = !m_GestureSelected;
             Debug.Log("OnEndManipulation");
-
-            if (m_GestureSelected)
-            {
-                _placedObject = gameObject;
-            }
-            if (!m_GestureSelected)
-            {
-                _placedObject = null;
-            }
         }
         else
             m_GestureSelected = false;
+
+        _selectedVO = (m_GestureSelected) ? gameObject : null;
+
     }
 
     /// <inheritdoc />
@@ -83,8 +74,6 @@ public class ARSelectionInteractableCustom : ARBaseGestureInteractable
         base.OnSelectEntering(args);
         if (m_SelectionVisualization != null)
             m_SelectionVisualization.SetActive(true);
-        Debug.Log("OnSelectEntering");
-        m_delete_button.gameObject.SetActive(true);
 
     }
 
@@ -94,15 +83,11 @@ public class ARSelectionInteractableCustom : ARBaseGestureInteractable
         base.OnSelectExiting(args);
         if (m_SelectionVisualization != null)
             m_SelectionVisualization.SetActive(false);
-        _placedObject = null;
-        m_delete_button.gameObject.SetActive(false);
     }
 
-    public void DeleteObjectButton()
+    public void DeleteSelectedObject()
     {
-        if(_placedObject != null)
-        {
-            Destroy(_placedObject);
-        }
+        if(_selectedVO != null) 
+            Destroy(_selectedVO);
     }
 }

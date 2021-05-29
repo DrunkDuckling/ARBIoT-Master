@@ -21,10 +21,10 @@
       <FileName>Assets\Placement\Scripts\XRExtensions\ARPlacementInteracterableCustom.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="arbiot.ARPlacementInteracterableCustom" Collapsed="true">
-    <Position X="9" Y="2" Width="3" />
+  <Class Name="arbiot.ARPlacementInteracterableCustom">
+    <Position X="18.75" Y="2.25" Width="3" />
     <TypeIdentifier>
-      <HashCode>CAECACAAAAAAgAACYAAggAAAhoQAAAAEAAAAAAAAAIQ=</HashCode>
+      <HashCode>CAECACAAAAAAgAACYAAggAAAhoQAAAAEAAAAAAAEAIQ=</HashCode>
       <FileName>Assets\Placement\Scripts\XRExtensions\ARPlacementInteracterableCustom.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -45,15 +45,8 @@
   <Class Name="SettingsMenu">
     <Position X="10.75" Y="4" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAQBAAAAACAAAAAAAAAAAQAAAEAgAAACQAgiBCgAAAA=</HashCode>
+      <HashCode>AAABAAAAACAAAAAAAAAAAQAAAEAgAAACYAgiBCAAAAA=</HashCode>
       <FileName>Assets\Placement\Scripts\Settings\SettingsMenu.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ARSelectionInteractableAuto" Collapsed="true">
-    <Position X="5.25" Y="2.25" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Placement\Scripts\XRExtensions\ARSelectionInteractableAuto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DebugStuff.ConsoleToGUI" Collapsed="true">
@@ -77,9 +70,13 @@
   <Class Name="arbiot.ObjectManager">
     <Position X="7.5" Y="4" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAQAEAAAASAgCIATAAAAABQACYEhAQIAAAAAiAAFAAA=</HashCode>
+      <HashCode>AIAAECAAASAgCIATAAAAABQCiYFgAQAAIAAAiAAFAAg=</HashCode>
       <FileName>Assets\Placement\Scripts\ObjectScripts\ObjectManager.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="UnityEngine.Events.UnityEvent&lt;T0, T1&gt;">
+    <Position X="12.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier />
   </Class>
   <Struct Name="arbiot.BrickData">
     <Position X="1.25" Y="4" Width="1.5" />
@@ -98,7 +95,7 @@
   <Interface Name="arbiot.IFB">
     <Position X="2.5" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAACAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Placement\Scripts\Backend\IFB.cs</FileName>
     </TypeIdentifier>
   </Interface>
