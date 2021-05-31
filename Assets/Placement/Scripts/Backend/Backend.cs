@@ -8,11 +8,12 @@ using UnityEngine.Networking;
 
 namespace arbiot
 {
-    public class FlaskBackend : MonoBehaviour, IFB
+    public class Backend : MonoBehaviour
     {
+
         [SerializeField]
         private string _uri = "http://localhost:5000/";
-        
+
         //[SerializeField] 
         //private string _uri = "http://192.168.0.109:80/";
 
@@ -21,12 +22,14 @@ namespace arbiot
         [SerializeField]
         private TMP_Dropdown _Dropdown;
 
-        [SerializeField]
-        private GameObject _menuWindow = null;
 
-        private Coroutine co;
+        // Start is called before the first frame update
+        void Start()
+        {
+        
+        }
 
-        public void SetUriInput(string val)
+        public void SetUriDD(string val)
         {
             _newUri = val;
         }
@@ -38,45 +41,14 @@ namespace arbiot
 
         public void ClickOK()
         {
-            if (_newUri == null)
-            {
-                Debug.Log("Select URI!");
-            }
-            else
-            {
-                _uri = _newUri;
-                Debug.Log("New URI:" + _uri);
-                _menuWindow.SetActive(false);
-            }
-        }
-
-        public void ClickClose()
-        {
-            _menuWindow.SetActive(false);
+            _uri = _newUri;
         }
 
         public void ClickTest()
         {
-            if(_newUri == null)
-            {
-                Debug.Log("Select URI!");
-            }
-            else
-            {
-                _uri = _newUri;
-                Debug.Log("New URI:" + _uri);
-                Debug.Log("Starting Test: ");
-                co = StartCoroutine(TestConnectionSpeed(_uri));
-            }
-            
+            _uri = _newUri;
+            StartCoroutine(TestConnectionSpeed(_uri));
         }
-
-        public void ClickStopTest()
-        {
-            Debug.Log("Stopping Coroutine.");
-            StopCoroutine(co);
-        }
-
 
         public void GetAddressesPointData(Action<string> callback)
         {
@@ -201,5 +173,7 @@ namespace arbiot
         {
             StopAllCoroutines();
         }
+
+
     }
 }

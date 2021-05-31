@@ -88,7 +88,9 @@ func produce (client mqtt.Client, signal Signal, t0 float64) {
             // sleep
             t := get_time()
             tdiff := tnext-t
-            fmt.Println(tdiff/1e9)
+            fmt.Println("tdiff: ", tdiff/1e9)
+            fmt.Println("Period: " , period)
+            fmt.Println("tnext: " , tnext/1e9)
             time.Sleep(time.Duration(tdiff) * time.Nanosecond)
             //time.Sleep(time.Duration(tdiff) * time.Second)
 

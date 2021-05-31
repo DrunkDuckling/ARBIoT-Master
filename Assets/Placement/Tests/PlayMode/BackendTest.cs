@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using arbiot;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,9 +8,9 @@ using UnityEngine.TestTools;
 
 public class BackendTest
 {
-    string _uri = "http://192.168.0.109:80/";
+    //string _uri = "http://192.168.0.109:80/";
     string uri = "http://localhost:5000/";
-    string go = "go";
+    //string go = "go";
     string getData = "getData/";
     string roomnumber = "e22-604-0";
     // A Test behaves as an ordinary method
@@ -19,26 +18,6 @@ public class BackendTest
     public void BackendTestSimplePasses()
     {
         // Use the Assert class to test conditions
-    }
-
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator BackendTestWithEnumeratorPasses()
-    {
-        var gameObject = new GameObject();
-        var backend = gameObject.AddComponent<FlaskBackend>();
-        string test;
-
-        for(int i = 0; i < 10; i++)
-        {
-            backend.GetRoomData("e22-604-0", TestBackend);
-            Debug.Log(i);
-        }
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
-
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
@@ -91,7 +70,7 @@ public class BackendTest
 
 
         //Get the path of the Game data folder
-        string m_Path = Application.dataPath + "/TestData/" + "Saved_timers_Brick.csv";
+        string m_Path = getPath();
 
         StreamWriter writer = new StreamWriter(m_Path);
 
@@ -110,9 +89,17 @@ public class BackendTest
         Debug.Log("dataPath : " + m_Path);
     }
 
-
-    private void TestBackend(string brickData)
+    private string getPath()
     {
-        Debug.Log("Got the data");
+#if UNITY_EDITOR
+        return Application.dataPath + "/Data/" + "Saved_Times_Unity.csv";
+#elif UNITY_ANDROID
+            return Application.persistentDataPath+"Saved_Times_Android.csv";
+#elif UNITY_IPHONE
+            return Application.persistentDataPath+"/"+"Saved_Times_IOS.csv";
+#else
+            return Application.dataPath +"/"+"Saved_Times.csv";
+#endif
     }
+
 }

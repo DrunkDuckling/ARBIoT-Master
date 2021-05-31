@@ -16,13 +16,23 @@ namespace arbiot
 
         public bool IsDepthSupported()
         {
-            bool depthtest =
+            /*bool depthtest =
                 ((_AROcclusionManager.descriptor?.supportsHumanSegmentationStencilImage == false) &&
                 (_AROcclusionManager.descriptor?.supportsHumanSegmentationDepthImage == false) &&
-                (_AROcclusionManager.descriptor?.supportsEnvironmentDepthImage == false));
+                (_AROcclusionManager.descriptor?.supportsEnvironmentDepthImage == false));*/
 
-            Debug.Log("meh: " + depthtest);
-            return depthtest;
+            /*bool test1 = (_AROcclusionManager.descriptor.supportsHumanSegmentationStencilImage);
+            bool test2 = (_AROcclusionManager.descriptor.supportsHumanSegmentationDepthImage);*/
+
+            bool test3 = (_AROcclusionManager.descriptor.supportsEnvironmentDepthImage); 
+
+            return test3;
+        }
+
+        public bool IsHumanDepthSupported()
+        {
+            bool test2 = (_AROcclusionManager.descriptor.supportsHumanSegmentationDepthImage);
+            return test2;
         }
 
         public void ChangeQualityTo(EnvironmentDepthMode environmentDepthMode)

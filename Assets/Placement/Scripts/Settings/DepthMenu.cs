@@ -4,6 +4,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using TMPro;
 using arbiot;
+using System.Collections;
 
 namespace DepthMenu
 {
@@ -35,22 +36,15 @@ namespace DepthMenu
 
         }
 
+
         // Start is called before the first frame update
         void Start()
         {
-            if (AROcclusionQualityController.Instance.IsDepthSupported())
-            {
-                depthAvailabilityInfo.text = "Depth is supported";
-                UpdateQualityText();
-            }   
-            else
-            {
-                depthAvailabilityInfo.text = "Depth is not supported";
-                qualityButton.interactable = false;
-                humanStensilButton.interactable = false;
-                prefButton.interactable = false;
-            }
-            
+
+            qualityButton.interactable = false;
+            humanStensilButton.interactable = false;
+            prefButton.interactable = false;
+            StartCoroutine(CheckSupport());
         }
 
         private void Awake()
@@ -59,7 +53,34 @@ namespace DepthMenu
             humanStensilButtonText = humanStensilButton.GetComponentInChildren<TextMeshProUGUI>();
             prefButtonText = prefButton.GetComponentInChildren<TextMeshProUGUI>();
         }
-        
+
+        IEnumerator CheckSupport()
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                yield return new WaitForSeconds(5);
+
+                if (AROcclusionQualityController.Instance.IsDepthSupported())
+                {
+                    depthAvailabilityInfo.text = "Depth is supported";
+                    qualityButton.interactable = true;
+                }
+                if (AROcclusionQualityController.Instance.IsHumanDepthSupported())
+                {
+                    humanStensilButton.interactable = true;
+                    prefButton.interactable = true;
+                }
+                if (!AROcclusionQualityController.Instance.IsDepthSupported() && !AROcclusionQualityController.Instance.IsHumanDepthSupported())
+                {
+                    depthAvailabilityInfo.text = "Depth is not supported";
+                    qualityButton.interactable = false;
+                    humanStensilButton.interactable = false;
+                    prefButton.interactable = false;
+                }
+            }
+            UpdateQualityText();
+        }
+
 
         // Used to change the quality of Occlusion
         public void ToggleQuality()
@@ -87,6 +108,8 @@ namespace DepthMenu
 
         public void ToggleHuStQuality()
         {
+
+            Debug.Log("hello ToggleHuStQuality");
             HumanSegmentationStencilMode humanStensileMode = AROcclusionQualityController.Instance.GetCurrentStencilMode();
 
             switch (humanStensileMode)
@@ -104,12 +127,12 @@ namespace DepthMenu
                     AROcclusionQualityController.Instance.ChangeHuSeDeQualityTo(HumanSegmentationDepthMode.Disabled);
                     break;
             }
-
             UpdateQualityText();
         }
 
         public void TogglePreference()
         {
+            Debug.Log("hello TogglePreference");
             OcclusionPreferenceMode prefMode = AROcclusionQualityController.Instance.GetCurrentPreferenceMode();
 
             switch (prefMode)
@@ -128,14 +151,19 @@ namespace DepthMenu
 
         private void UpdateQualityText()
         {
-            EnvironmentDepthMode newDepthMode = AROcclusionQualityController.Instance.GetCurrentDepthMode();
-            qualityButtonText.text = $"Env Depth: {newDepthMode}";
+            if (AROcclusionQualityController.Instance.IsDepthSupported())
+            {
+                EnvironmentDepthMode newDepthMode = AROcclusionQualityController.Instance.GetCurrentDepthMode();
+                qualityButtonText.text = $"Env Depth: {newDepthMode}";
+            }
+            if (AROcclusionQualityController.Instance.IsHumanDepthSupported())
+            {
+                HumanSegmentationStencilMode newHumaneMode = AROcclusionQualityController.Instance.GetCurrentStencilMode();
+                humanStensilButtonText.text = $"Stencil: {newHumaneMode}";
 
-            HumanSegmentationStencilMode newHumaneMode = AROcclusionQualityController.Instance.GetCurrentStencilMode();
-            humanStensilButtonText.text = $"Stencil: {newHumaneMode}";
-
-            OcclusionPreferenceMode prefhMode = AROcclusionQualityController.Instance.GetCurrentPreferenceMode();
-            prefButtonText.text = $"Pref:  {prefhMode}";
+                OcclusionPreferenceMode prefhMode = AROcclusionQualityController.Instance.GetCurrentPreferenceMode();
+                prefButtonText.text = $"Pref:  {prefhMode}";
+            }
         }
     }
 }

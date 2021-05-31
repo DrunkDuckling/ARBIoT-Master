@@ -28,6 +28,9 @@ namespace arbiot
 
         [SerializeField] private Text _txt_sensor_uuid;
 
+        [SerializeField] 
+        private TextMeshProUGUI fpstext;
+        private float deltaTime;
 
         /// <summary>
         /// Setting menu that contains options for different features.
@@ -63,6 +66,13 @@ namespace arbiot
             //_button.onClick.AddListener(OnButtonClick);
             StartCoroutine(UpdatePrefabArray());
             
+        }
+
+        void Update()
+        {
+            deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+            float fps = 1.0f / deltaTime;
+            fpstext.text = $"FPS: {Mathf.Ceil(fps)}";
         }
 
         // Method for the Room drop down menu.
@@ -134,13 +144,14 @@ namespace arbiot
                 yield return new WaitForSeconds(10);
                 _backend.GetLiveData(GetLiveDatas);
 
+                Debug.Log(_arrayGameObjects.Length);
+
                 // Go get live data and place it into the instanciated gameobjects. 
                 if (_livedata != null && _arrayGameObjects != null)
                 {
                     // Itterate the GameObjects found (Prefabs) and give them value
                     foreach (GameObject go in _arrayGameObjects)
                     {
-                        print(go.name);
                         foreach (SensorData ld in _livedata.livedata)
                         {
                             if (go.name == ld.uuid)
@@ -202,5 +213,7 @@ namespace arbiot
             // Allow placing objects again. If other bool is the same value
             arptoggle.Disable_placement_via_settings(true);
         }
+
+
     }
 }

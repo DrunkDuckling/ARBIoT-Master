@@ -19,6 +19,8 @@ exPort = "80"
 # Topic is used to subscribe to a specific subject from the mqtt broker.
 topic = "ou44/+/+"
 
+# Array used for storing MQTT data; it is updated when new values are provided
+dataList = []
 
 @api.route('/time', methods=['GET'])
 def get_time():
@@ -133,7 +135,7 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe(topic)
 
 
-dataList = []
+
 
 def on_message(client, userdata, msg):
     # print("Topic: " + msg.topic + " MSG: " + str(msg.payload))
@@ -200,5 +202,5 @@ if __name__ == '__main__':
     client.loop_start()
 
     # Run the flask server with given parameters
-    api.run(debug=True, host=loHost, port=loPort)
-    #api.run(host=exHost, port=exPort, debug=True, threaded=True) #For running on remote server (
+    #api.run(debug=True, host=loHost, port=loPort)
+    api.run(host=exHost, port=exPort, debug=True, threaded=True) #For running on remote server (
