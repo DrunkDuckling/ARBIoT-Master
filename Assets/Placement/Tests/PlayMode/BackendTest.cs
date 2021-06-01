@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 public class BackendTest
 {
     //string _uri = "http://192.168.0.109:80/";
-    string uri = "http://localhost:5000/";
+    string uri = "http://d283d95f7739.eu.ngrok.io/";
     //string go = "go";
     string getData = "getData/";
     string roomnumber = "e22-604-0";
@@ -92,7 +92,7 @@ public class BackendTest
     private string getPath()
     {
 #if UNITY_EDITOR
-        return Application.dataPath + "/Data/" + "Saved_Times_Unity.csv";
+        return Application.dataPath + "/TestData/" + "Saved_Times_Unity_Desktop_VM.csv";
 #elif UNITY_ANDROID
             return Application.persistentDataPath+"Saved_Times_Android.csv";
 #elif UNITY_IPHONE
